@@ -8,7 +8,7 @@
     <!-- Open Graph / Twitter Cards -->
     <meta property="og:title" content="Situationship Score">
     <meta property="og:description" content="Answer 10 brutally honest questions and find out if you're dating, delulu, or basically married 😭">
-    <meta property="og:image" content="https://situationship.theappkingdom.com/og-image.jpg"> <!-- Assume you upload an OG image -->
+    <meta property="og:image" content="https://situationship.theappkingdom.com/og-image.jpg"> <!-- Update if you have an image -->
     <meta property="og:url" content="https://situationship.theappkingdom.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Situationship Score">
@@ -22,7 +22,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- html2canvas CDN for PNG share -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your measurement ID) -->
+    <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your real ID) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -30,7 +30,7 @@
       gtag('js', new Date());
       gtag('config', 'G-XXXXXXXXXX');
     </script>
-    <!-- AdSense (placeholder, replace ca-pub-XXXX and slots) -->
+    <!-- AdSense (replace placeholders with real values) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX"
      crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
@@ -44,12 +44,12 @@
             <button class="start-btn" @click="startQuiz()">Start Quiz</button>
         </div>
 
-        <!-- Quiz Screen -->
+        <!-- Quiz Screen – only rendered when quiz is active -->
         <div class="quiz" x-show="state === 'quiz'" x-transition:enter="slide">
-            <div class="progress-bar">
+            <div class="progress-bar" x-show="state === 'quiz'">
                 <div class="progress" :style="{ width: ((current + 1) / 10 * 100) + '%' }"></div>
             </div>
-            <p class="progress-text">Question <span x-text="current + 1"></span> of 10</p>
+            <p class="progress-text" x-show="state === 'quiz'">Question <span x-text="current + 1"></span> of 10</p>
             <h2 x-text="questions[current].text"></h2>
             <div class="options">
                 <template x-for="(option, idx) in answerOptions" :key="idx">
@@ -75,7 +75,7 @@
                 <p class="title" x-show="!shared" x-text="title"></p>
                 <p class="roast" x-text="roast"></p>
             </div>
-            <!-- Ad Placeholder 1 (below score) -->
+            <!-- Ad Placeholder 1 -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXX"
@@ -86,7 +86,7 @@
             <button class="share-btn" @click="sharePng()">Share Result (PNG)</button>
             <button class="challenge-btn" @click="challenge()">Challenge Your Person (Link)</button>
             <button class="remix-btn" @click="remix()" x-text="shared ? 'Take It Yourself' : 'Remix'"></button>
-            <!-- Ad Placeholder 2 (mid-result) -->
+            <!-- Ad Placeholder 2 -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXX"
@@ -107,7 +107,7 @@
                 <input type="email" x-model="email" placeholder="your@email.com">
                 <button @click="submitEmail()">Submit</button>
             </div>
-            <!-- Ad Placeholder 3 (bottom) -->
+            <!-- Ad Placeholder 3 -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXX"
