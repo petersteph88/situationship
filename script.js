@@ -14,12 +14,12 @@ function app() {
         email: '',
         loadingMessage: '',
         answerOptions: [
-            { label: 'Never! (Green flag vibes 💚)', score: 10 },
-            { label: 'Rarely (Barely a thing)', score: 7 },
-            { label: 'Sometimes (Mixed signals alert ⚠️)', score: 4 },
-            { label: 'Often (Red flag territory 🚩)', score: 1 },
-            { label: 'Always (Run, don\'t walk 🏃‍♀️)', score: 0 }
-        ],
+    { label: "Never! 😏", score: 10 },
+    { label: "Rarely", score: 7 },
+    { label: "Sometimes 😬", score: 4 },
+    { label: "Often 🚩", score: 1 },
+    { label: "Always 🏃‍♀️", score: 0 }
+],
         loadingMessages: [
             'Counting red flags...',
             'Measuring delulu levels...',
