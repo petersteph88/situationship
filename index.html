@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Situationship Score</title>
+    <meta name="description" content="Find out your situationship score with this brutally honest quiz. Are you dating, delulu, or basically married?">
+    <!-- Open Graph / Twitter Cards -->
+    <meta property="og:title" content="Situationship Score">
+    <meta property="og:description" content="Answer 10 brutally honest questions and find out if you're dating, delulu, or basically married 😭">
+    <meta property="og:image" content="https://situationship.theappkingdom.com/og-image.jpg"> <!-- Assume you upload an OG image -->
+    <meta property="og:url" content="https://situationship.theappkingdom.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Situationship Score">
+    <meta name="twitter:description" content="Answer 10 brutally honest questions and find out if you're dating, delulu, or basically married 😭">
+    <meta name="twitter:image" content="https://situationship.theappkingdom.com/og-image.jpg">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- html2canvas CDN for PNG share -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your measurement ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <!-- AdSense (placeholder, replace ca-pub-XXXX and slots) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX"
+     crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body x-data="app()">
+    <div class="container" x-show="state !== 'loading'">
+        <!-- Landing Screen -->
+        <div class="landing" x-show="state === 'landing'" x-transition:enter="fade">
+            <h1>What's your Situationship Score?</h1>
+            <p>Answer 10 brutally honest questions and find out if you're dating, delulu, or basically married 😭</p>
+            <button class="start-btn" @click="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz" x-show="state === 'quiz'" x-transition:enter="slide">
+            <div class="progress-bar">
+                <div class="progress" :style="{ width: ((current + 1) / 10 * 100) + '%' }"></div>
+            </div>
+            <p class="progress-text">Question <span x-text="current + 1"></span> of 10</p>
+            <h2 x-text="questions[current].text"></h2>
+            <div class="options">
+                <template x-for="(option, idx) in answerOptions" :key="idx">
+                    <label class="option">
+                        <input type="radio" :name="'answer-' + current" :value="option.score" x-model="answers[current]">
+                        <span x-text="option.label"></span>
+                    </label>
+                </template>
+            </div>
+            <button class="next-btn" :disabled="answers[current] === undefined" @click="nextQuestion()"
+                x-text="current < 9 ? 'Next' : 'Finish'"></button>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="result" x-show="state === 'result'" x-transition:enter="fade">
+            <div id="result-card" class="result-card">
+                <h1 x-text="shared ? 'Shared Situationship: ' + title : 'Your Situationship Score'"></h1>
+                <div class="score" x-text="score + '%'"></div>
+                <div class="meter">
+                    <div class="meter-fill" :style="{ width: score + '%' }"></div>
+                    <span class="heart" x-html="badgeEmoji"></span>
+                </div>
+                <p class="title" x-show="!shared" x-text="title"></p>
+                <p class="roast" x-text="roast"></p>
+            </div>
+            <!-- Ad Placeholder 1 (below score) -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXX"
+                 data-ad-slot="YYYY1"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <!-- Share Buttons -->
+            <button class="share-btn" @click="sharePng()">Share Result (PNG)</button>
+            <button class="challenge-btn" @click="challenge()">Challenge Your Person (Link)</button>
+            <button class="remix-btn" @click="remix()" x-text="shared ? 'Take It Yourself' : 'Remix'"></button>
+            <!-- Ad Placeholder 2 (mid-result) -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXX"
+                 data-ad-slot="YYYY2"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <!-- Affiliate Block -->
+            <div class="affiliate">
+                <p>Trying to turn this situationship into something real? 👇</p>
+                <a href="https://amazon.com/date-night-ideas">Amazon Date Night Essentials</a>
+                <a href="https://etsy.com/valentine-gifts">Etsy Personalized Gifts</a>
+                <a href="https://amazon.com/relationship-books">Relationship Advice Books</a>
+                <a href="https://etsy.com/couple-jewelry">Couple Jewelry</a>
+            </div>
+            <!-- Email Capture -->
+            <div class="email-capture">
+                <p>Want savage relationship memes weekly? Drop email (totally optional)</p>
+                <input type="email" x-model="email" placeholder="your@email.com">
+                <button @click="submitEmail()">Submit</button>
+            </div>
+            <!-- Ad Placeholder 3 (bottom) -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXX"
+                 data-ad-slot="YYYY3"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading" x-show="state === 'loading'" x-transition:enter="fade">
+        <p x-text="loadingMessage"></p>
+    </div>
+
+    <footer>
+        <a href="https://theappkingdom.com">Back to The App Kingdom</a>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</body>
+</html>
